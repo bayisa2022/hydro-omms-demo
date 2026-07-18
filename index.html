@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hydro OMMS - Public Demo</title>
+    <link rel="stylesheet" href="./styles.css?v=demo-v0110">
+    <link rel="stylesheet" href="./demo.css?v=demo-v0110">
+  </head>
+  <body>
+    <div class="demo-banner" role="status">
+      <span><strong>PUBLIC DEMO</strong> Sample data only. Changes stay in this browser.</span>
+      <button id="reset-demo" type="button">Reset demo</button>
+    </div>
+    <section id="auth-screen" class="auth-screen" hidden>
+      <div class="auth-card">
+        <div class="brand auth-brand">
+          <span class="company-logo hydro-logo" aria-hidden="true">H</span>
+          <div>
+            <strong>Hydro OMMS</strong>
+            <span>Operations command center</span>
+          </div>
+        </div>
+
+        <div class="auth-tabs">
+          <button class="secondary-button active" id="show-login">Login</button>
+          <button class="secondary-button" id="show-register" hidden>Create Account</button>
+        </div>
+
+        <form id="login-form" class="auth-form">
+          <label>Username or Email <input id="login-identity" autocomplete="username" required></label>
+          <label>Password <input id="login-password" type="password" autocomplete="current-password" required></label>
+          <button class="button" type="submit">Login</button>
+          <button class="text-button" id="show-forgot-password" type="button">Forgot password?</button>
+        </form>
+
+        <form id="register-form" class="auth-form" hidden>
+          <label>Full Name <input id="register-name" autocomplete="name" required></label>
+          <label>Email <input id="register-email" type="email" autocomplete="email" required></label>
+          <label>Password <input id="register-password" type="password" autocomplete="new-password" minlength="8" required></label>
+          <button class="button" type="submit">Create Account</button>
+        </form>
+
+        <form id="forgot-password-form" class="auth-form" hidden>
+          <label>Email <input id="forgot-password-email" type="email" autocomplete="email" required></label>
+          <button class="button" type="submit">Send Reset Link</button>
+          <button class="text-button" id="back-to-login" type="button">Back to login</button>
+        </form>
+
+        <form id="reset-password-form" class="auth-form" hidden>
+          <label>New Password <input id="reset-password" type="password" autocomplete="new-password" minlength="8" required></label>
+          <label>Confirm Password <input id="reset-password-confirm" type="password" autocomplete="new-password" minlength="8" required></label>
+          <button class="button" type="submit">Set New Password</button>
+        </form>
+
+        <p id="auth-message" class="auth-message"></p>
+      </div>
+    </section>
+
+    <div class="app-shell" id="app-shell" hidden>
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="company-logo hydro-logo" aria-hidden="true">H</span>
+          <div>
+            <strong>Hydro Plant</strong>
+            <span>O&M Management System</span>
+          </div>
+        </div>
+        <nav aria-label="Primary">
+          <button class="nav-button active" data-view="dashboard">Dashboard</button>
+          <button class="nav-button nav-parent" id="production-menu-toggle" data-submenu-toggle="production-submenu" type="button" aria-expanded="false">
+            <span>Plant Operation Report</span><span class="nav-chevron" aria-hidden="true">›</span>
+          </button>
+          <div class="nav-submenu" id="production-submenu" hidden>
+            <button class="nav-button nav-submodule" data-view="production">Hourly Report</button>
+            <button class="nav-button nav-submodule" data-view="shuntReactor1">Shunt Reactor</button>
+            <button class="nav-button nav-submodule" data-view="lineParameter">Line Parameter</button>
+            <button class="nav-button nav-submodule" data-view="waterLevel">Water Level</button>
+            <button class="nav-button nav-submodule" data-view="energyMeter">Energy Meter</button>
+            <button class="nav-button nav-submodule" data-view="productionSummary">Daily Production</button>
+            <button class="nav-button nav-submodule" data-view="dailyGenerationReport">Daily Generation Report</button>
+            <button class="nav-button nav-submodule" data-view="logbook">Operations Logbook</button>
+            <button class="nav-button nav-submodule" data-view="monthlyProduction">Generation Monthly Report</button>
+            <button class="nav-button nav-submodule" data-view="operationWorkbook">Operation Workbook</button>
+          </div>
+          <button class="nav-button nav-parent" id="maintenance-menu-toggle" data-submenu-toggle="maintenance-submenu" type="button" aria-expanded="false">
+            <span>Plant Maintenance Report</span><span class="nav-chevron" aria-hidden="true">›</span>
+          </button>
+          <div class="nav-submenu" id="maintenance-submenu" hidden>
+            <button class="nav-button nav-submodule" data-view="assets">Assets</button>
+            <button class="nav-button nav-submodule" data-view="work">Work Orders</button>
+            <button class="nav-button nav-submodule" data-view="pm">Plant Maintenance Types</button>
+            <button class="nav-button nav-submodule" data-view="commissioningReports">Commissioning and Test Report</button>
+            <button class="nav-button nav-submodule" data-view="inventory">Inventory</button>
+            <button class="nav-button nav-submodule" data-view="maintenanceArchive">Digital Archive</button>
+            <button class="nav-button nav-submodule" data-view="documents">Documents</button>
+            <button class="nav-button nav-submodule" data-view="maintenanceLogbook">Maintenance Logbook</button>
+          </div>
+          <button class="nav-button" data-view="data">Data Control</button>
+          <button class="nav-button" data-view="reports">Reports</button>
+          <button class="nav-button" data-view="users">Users</button>
+        </nav>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div class="page-title-lockup">
+            <span class="title-logo hydro-logo" aria-hidden="true">H</span>
+            <div>
+              <p class="eyebrow">Operations and Maintenance</p>
+              <h1 id="page-title">Dashboard</h1>
+            </div>
+          </div>
+          <div class="top-actions">
+            <input id="global-search" type="search" placeholder="Search assets, work, inventory">
+            <span class="status-pill" id="current-user-label"></span>
+            <button class="secondary-button" id="logout-button">Logout</button>
+            <span class="status-pill">Plant LAN</span>
+          </div>
+        </header>
+
+        <section id="dashboard" class="view active"></section>
+        <section id="dailyGenerationReport" class="view"></section>
+        <section id="productionSummary" class="view"></section>
+        <section id="monthlyProduction" class="view"></section>
+        <section id="operationWorkbook" class="view"></section>
+        <section id="energyMeter" class="view"></section>
+        <section id="waterLevel" class="view"></section>
+        <section id="production" class="view"></section>
+        <section id="shuntReactor1" class="view"></section>
+        <section id="lineParameter" class="view"></section>
+        <section id="assets" class="view"></section>
+        <section id="work" class="view"></section>
+        <section id="pm" class="view"></section>
+        <section id="commissioningReports" class="view"></section>
+        <section id="logbook" class="view"></section>
+        <section id="maintenanceLogbook" class="view"></section>
+        <section id="inventory" class="view"></section>
+        <section id="maintenanceArchive" class="view"></section>
+        <section id="documents" class="view"></section>
+        <section id="data" class="view"></section>
+        <section id="reports" class="view"></section>
+        <section id="users" class="view"></section>
+        <footer class="app-footer">
+          <span>Release V01.1.0 - Public Demo</span>
+          <span>Built with HTML, CSS, JavaScript and Node.js</span>
+        </footer>
+      </main>
+    </div>
+
+    <dialog id="modal">
+      <form method="dialog" class="modal-card">
+        <div class="modal-head">
+          <h2 id="modal-title">Create</h2>
+          <button class="icon-button" type="button" data-close-modal aria-label="Close">x</button>
+        </div>
+        <div id="modal-content"></div>
+      </form>
+    </dialog>
+
+    <dialog id="first-password-dialog">
+      <form id="first-password-form" class="modal-card">
+        <div class="modal-head">
+          <h2>Create Your Password</h2>
+        </div>
+        <p class="muted">Replace the temporary password before continuing.</p>
+        <div class="auth-form">
+          <label>Temporary Password <input id="first-current-password" type="password" autocomplete="current-password" required></label>
+          <label>New Password <input id="first-new-password" type="password" autocomplete="new-password" minlength="8" required></label>
+          <label>Confirm New Password <input id="first-confirm-password" type="password" autocomplete="new-password" minlength="8" required></label>
+          <button class="button" type="submit">Save New Password</button>
+          <button class="text-button" id="first-password-logout" type="button">Logout</button>
+        </div>
+        <p id="first-password-message" class="auth-message"></p>
+      </form>
+    </dialog>
+
+    <script src="./demo-api.js?v=demo-v0110"></script>
+    <script src="./app.js?v=demo-v0110"></script>
+  </body>
+</html>

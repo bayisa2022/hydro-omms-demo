@@ -1,0 +1,59 @@
+.demo-banner {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  min-height: 40px;
+  padding: 7px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: #ffffff;
+  background: #8a4b08;
+  border-bottom: 3px solid #f1b24b;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.demo-banner strong {
+  margin-right: 8px;
+  letter-spacing: 0;
+}
+
+.demo-banner button {
+  min-height: 28px;
+  padding: 4px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 4px;
+  color: #ffffff;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.demo-banner button:hover,
+.demo-banner button:focus-visible {
+  color: #6f3900;
+  background: #ffffff;
+}
+
+.hydro-logo {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #2d7467;
+  border-radius: 6px;
+  background: #0f5b4e;
+  color: #ffffff;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-weight: 900;
+}
+
+@media (max-width: 720px) {
+  .demo-banner {
+    justify-content: space-between;
+    padding-inline: 10px;
+    font-size: 11px;
+  }
+}
