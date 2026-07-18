@@ -43,7 +43,13 @@ if (-not $repositoryExists) {
 }
 
 $expectedOrigin = "https://github.com/$repository.git"
-$origin = (& git remote get-url origin 2>$null)
+$previousErrorPreference = $ErrorActionPreference
+try {
+  $ErrorActionPreference = "SilentlyContinue"
+  $origin = (& git remote get-url origin 2>$null)
+} finally {
+  $ErrorActionPreference = $previousErrorPreference
+}
 if ($origin) {
   & git remote set-url origin $expectedOrigin
 } else {
