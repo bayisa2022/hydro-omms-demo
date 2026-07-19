@@ -43,24 +43,24 @@ if (-not $repositoryExists) {
 }
 
 $expectedOrigin = "https://github.com/$repository.git"
+$safeDirectory = (Get-Location).Path -replace '\\', '/'
 $previousErrorPreference = $ErrorActionPreference
 try {
   $ErrorActionPreference = "SilentlyContinue"
-  $origin = (& git remote get-url origin 2>$null)
+  $origin = (& git -c "safe.directory=$safeDirectory" remote get-url origin 2>$null)
 } finally {
   $ErrorActionPreference = $previousErrorPreference
 }
 if ($origin) {
-  & git remote set-url origin $expectedOrigin
+  & git -c "safe.directory=$safeDirectory" remote set-url origin $expectedOrigin
 } else {
-  & git remote add origin $expectedOrigin
+  & git -c "safe.directory=$safeDirectory" remote add origin $expectedOrigin
 }
 
 $token = (& $ghPath auth token)
 if ($LASTEXITCODE -ne 0 -or -not $token) { throw "GitHub CLI token is unavailable." }
 
 $basicAuth = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes("x-access-token:$token"))
-$safeDirectory = (Get-Location).Path -replace '\\', '/'
 $gitEnvironment = @{
   GIT_CONFIG_COUNT = "3"
   GIT_CONFIG_KEY_0 = "safe.directory"
